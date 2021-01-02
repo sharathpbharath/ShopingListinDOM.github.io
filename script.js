@@ -1,16 +1,58 @@
 var button = document.getElementById("enter");
 var input = document.getElementById("userinput");
 var ul = document.querySelector("ul");
+var deleteBtns = document.getElementsByClassName("delete");
+var items = ul.getElementsByTagName("li");
+
+//add event listener to first 6 btns in HTML file
+for(var i = 0; i < deleteBtns.length; i++){
+	deleteBtns[i].addEventListener("click", removeParent, false);
+}
+
+function removeParent(evt) {
+  evt.target.removeEventListener("click", removeParent, false);
+  evt.target.parentNode.remove();
+}
+
+//click on a list item and it strikethroughs the text
+function lineThrough(event){
+	var a=event.target;
+	
+	if(count==0)
+	{
+		
+	    a.classList.add("done");
+	}
+	else
+	{
+		a.classList.toggle("done");
+	}
+	count++;
+
+
+}
+
+ul.onclick = function(event){
+	var target = getEventTarget(event);
+	target.classList.toggle("done");
+}
 
 function inputLength() {
 	return input.value.length;
 }
 
 function createListElement() {
+	var btn = document.createElement("button");
+	btn.innerHTML = "Delete";
+	btn.onclick = removeParent;
+
 	var li = document.createElement("li");
 	li.appendChild(document.createTextNode(input.value));
+	li.innerHTML = li.innerHTML + " ";
+	li.appendChild(btn);
+
 	ul.appendChild(li);
-	input.value = "";
+	input.value="";
 }
 
 function addListAfterClick() {
